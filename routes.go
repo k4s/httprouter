@@ -79,7 +79,13 @@ func (m *RouteMux) AddRoute(method string, pattern string, handler http.HandlerF
 			index := i - 1
 			params[index] = part
 			parts[i] = expr
+		} else if i != 0 {
+			expr := "([^/]+)"
+			index := i - 1
+			params[index] = part
+			parts[i] = expr
 		}
+		fmt.Println(params, parts)
 	}
 	//recreate the url pattern, with parameters replaced
 	//by regular expressions. then compile the regex
@@ -124,7 +130,7 @@ func (m *RouteMux) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		}
 
 		if handler, err := route.methodHandler[r.Method]; !err {
-			continue
+			break
 		} else {
 			if len(route.params) > 0 {
 				//add url parameters to the query param map

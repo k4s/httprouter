@@ -17,14 +17,14 @@ func Whoami(w http.ResponseWriter, r *http.Request) {
 }
 func Who(w http.ResponseWriter, r *http.Request) {
 	params := r.URL.Query()
-	Name := params.Get(":name")
+	Name := params.Get(":id")
 	fmt.Fprintf(w, "Iam %s", Name)
 }
 
 func main() {
 	mux := httprouter.New()
-	mux.Get("/:first/:last", Whoami)
-	mux.Put("/:name", Who)
+	mux.Get("/:first(kas)/:last", Whoami)
+	mux.Put("/user(user)/:id([0-9]+)", Who)
 
 	//	http.Handle("/", mux)
 	http.ListenAndServe(":8088", mux)
