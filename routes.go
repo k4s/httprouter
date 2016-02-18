@@ -85,7 +85,6 @@ func (m *RouteMux) AddRoute(method string, pattern string, handler http.HandlerF
 			params[index] = part
 			parts[i] = expr
 		}
-		fmt.Println(params, parts)
 	}
 	//recreate the url pattern, with parameters replaced
 	//by regular expressions. then compile the regex
