@@ -1,8 +1,6 @@
 package httprouter
 
 import (
-	"fmt"
-	//	"fmt"
 	"net/http"
 	"net/url"
 	"regexp"
