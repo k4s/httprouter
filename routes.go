@@ -2,6 +2,7 @@ package httprouter
 
 import (
 	"fmt"
+	//	"fmt"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -81,6 +82,10 @@ func (m *RouteMux) AddRoute(method string, pattern string, handler http.HandlerF
 			parts[i] = expr
 		} else if i != 0 {
 			expr := "([^/]+)"
+			if index := strings.Index(part, "("); index != -1 {
+				expr = part[index:]
+				part = part[:index]
+			}
 			index := i - 1
 			params[index] = part
 			parts[i] = expr
@@ -135,7 +140,6 @@ func (m *RouteMux) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 				//add url parameters to the query param map
 				values := r.URL.Query()
 				for i, match := range matches[1:] {
-					fmt.Println(i, route.params[i], match)
 					values.Add(route.params[i], match)
 				}
 				r.URL.RawQuery = url.Values(values).Encode()
